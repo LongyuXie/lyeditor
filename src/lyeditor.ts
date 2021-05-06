@@ -379,6 +379,8 @@ export class LyEditor extends IEventListener {
      *
      */
     // console.log("hello, world");
+
+    return;
     console.log(change);
     let st = change.newRange.getStartPosition();
     let ed = change.newRange.getEndPosition();
@@ -412,6 +414,7 @@ export class LyEditor extends IEventListener {
   }
 
 }
+
 
 export function getWordByLine(text: string): Set<string> {
   return new Set(text.split(splitRegex).filter(value => {

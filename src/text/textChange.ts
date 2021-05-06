@@ -7,7 +7,7 @@ import {Range} from "../core/range"
  * newRange：在编辑操作后，text的位置区间
  * oldText：需要操作的文本
  */
- export class TextChange{
+export class TextChange{
   constructor(
     public readonly newRange: Range,
     public readonly newText: string,

@@ -8,26 +8,6 @@ import {Rectangle} from "../core/rectangle";
 import {lowerBound, normalize} from "../utils/number";
 import {addClass, rmClass, switchNext} from "../utils/dom";
 
-// private updateCursor() {
-//   let pos = this._cursor.position();
-//   let left = this._fontWidth * pos.column;
-//   let top = this._lineHeight * pos.lineNumber;
-//   let p = new Point(left, top);
-//   p = p.originTransform(-this._paddingLeft, -this._paddingTop);
-//   p = p.originTransform(+this.scrollLeft, +this.scrollTop);
-//
-//   let c = this.layout.cursor;
-//   if(p.x < 0 || p.x >= this._canvasWidth || p.y < 0 || p.y >= this._canvasHeight){
-//     c.style.display = "none";
-//     return;
-//   }
-//   if(c.style.top === `${p.y}px` && c.style.left === `${p.x}px`){
-//     return;
-//   }
-//   c.style.display = "";
-//   c.style.top = p.y + "px";
-//   c.style.left = p.x + "px";
-// }
 /**
  * 光标的显示控制, 主要是控制光标的大小, 是否显示, 闪烁间隔,
  * - 光标的显示
