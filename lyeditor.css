@@ -1,0 +1,78 @@
+.lyeditor-textarea{
+    height: 1px;
+    width: 1px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    z-index: -9999;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    outline: 0;
+    background: none;
+    overflow: hidden;
+    tab-index: -1;
+    /*-ms-ime-mode: disabled;*/
+}
+.lyeditor-background{
+    position: absolute;
+    z-index: 1;
+    border: 1px solid;
+}
+.lyeditor-canvas{
+    position: absolute;
+    z-index: -1;
+}
+.lyeditor-selroot{
+    position: absolute;
+    z-index: -2;
+    overflow: hidden;
+}
+.lyeditor-cursor{
+    position: absolute;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background: black;
+}
+.lyeditor-root{
+    position: absolute;
+}
+
+.cursor-blink1{
+    animation: Blink1 1200ms infinite steps(1, start);
+}
+.cursor-blink2{
+    animation: Blink2 1200ms infinite steps(1, start);
+}
+
+@keyframes Blink1 {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+@keyframes Blink2 {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+#lyeditor-sel-background{
+    position: absolute;
+    background: blue;
+}
+.suggest-item {
+    width: auto;
+    height: 20px;
+    visibility: inherit;
+    background: #cccfff;
+}
+.suggest-checked {
+    background-color: #fffccc;
+    z-index: 10;
+}

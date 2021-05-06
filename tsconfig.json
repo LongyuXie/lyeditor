@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "amd",
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "importsNotUsedAsValues": "remove",
+    "noImplicitReturns": true,
+    "lib": [
+      "ES2015",
+      "ES2016.Array.Include",
+      "ES2017.String",
+      "ES2018.Promise",
+      "DOM",
+      "DOM.Iterable",
+      "WebWorker.ImportScripts"
+    ]
+  },
+  "include": [
+    "./src"
+  ]
+}
