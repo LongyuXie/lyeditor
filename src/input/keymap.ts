@@ -52,14 +52,16 @@ export class KeyBind{
     }
     this.keybind.set(keyName, defaultCm);
   }
+  getCommandName(keyName: string): string{
+    let cm = this.keybind.get(keyName);
+    return cm == undefined ? "" : cm;
+  }
+
+
   restore(){
     this.keybind.clear();
     this.defaultKeyBind.forEach((value, key) => {
       this.keybind.set(key, value);
     })
-  }
-  getCommandName(keyName: string): string{
-    let cm = this.keybind.get(keyName);
-    return cm == undefined ? "" : cm;
   }
 }

@@ -25,7 +25,7 @@ export class ViewModel {
    * @param p
    * @private
    */
-  public bufferPositionToScreenPoint(p: Position): Point {
+  public bufferPositionToBufferPoint(p: Position): Point {
     return new Point(p.column * this.view.fontW, p.lineNumber* this.view.lineH);
   }
 
@@ -34,7 +34,7 @@ export class ViewModel {
    * @param p
    * @private
    */
-  public screenPointToBufferPosition(p: Point): Position {
+  public bufferPointToBufferPosition(p: Point): Position {
     let lineNumber = Math.floor(p.y / this.view.lineH);
     let column = Math.round(p.x / this.view.fontW);
     return new Position(lineNumber, column);
@@ -44,7 +44,7 @@ export class ViewModel {
    * 显示坐标转换为相对坐标
    * @param p
    */
-  public screenPointToRelativePoint(p: Point): Point{
+  public bufferPointToRelativePoint(p: Point): Point{
     return p.originTransform(this.view.scrollLeft, this.view.scrollTop);
   }
 
@@ -52,7 +52,7 @@ export class ViewModel {
    * 相对坐标转换为滚动坐标
    * @param p
    */
-  public relativePointScreenPoint(p: Point): Point{
+  public relativePointBufferPoint(p: Point): Point{
     return p.originTransform(-this.view.scrollLeft, -this.view.scrollTop);
   }
 
@@ -74,8 +74,8 @@ export class ViewModel {
 
   public canvasPointToValidatePosition(p: Point): Position{
     p = this.canvasPointToRelativePoint(p);
-    p = this.relativePointScreenPoint(p);
-    let pos = this.screenPointToBufferPosition(p);
+    p = this.relativePointBufferPoint(p);
+    let pos = this.bufferPointToBufferPosition(p);
     return this.buffer.validatePosition(pos);
   }
 
@@ -84,8 +84,8 @@ export class ViewModel {
    * @param pos
    */
   public bufferPositionToCanvasPoint(pos: Position): Point{
-    let p = this.bufferPositionToScreenPoint(pos);
-    p = this.screenPointToRelativePoint(p);
+    let p = this.bufferPositionToBufferPoint(pos);
+    p = this.bufferPointToRelativePoint(p);
     p = this.relativePointToCanvasPoint(p);
     return p;
   }

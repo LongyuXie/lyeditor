@@ -13,13 +13,6 @@ export class UndoService {
     this._isUndoing = false;
     this._isUndoing = false;
   }
-  // getOperations(): IEditUndoOperation[] {
-  //   let ret: IEditUndoOperation[] = [];
-  //   for(let idx = this.undoList.length-1; idx >= 0; idx--) {
-  //     ret.push(this.undoList[idx].toIEditOperation());
-  //   }
-  //   return ret;
-  // }
   public get isUndoing(): boolean {
     return this._isUndoing;
   }

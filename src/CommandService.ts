@@ -11,7 +11,6 @@ import {logd} from "./utils/log";
  */
 export class CommandService{
   private commandMap: Map<string, any> = new Map();
-
   /**
    * 向命令集合中添加一个命令
    * @param name
@@ -31,7 +30,6 @@ export class CommandService{
     }
     this.commandMap.set(name, handler);
   }
-
   /**
    * 移除一个命令
    * @param name

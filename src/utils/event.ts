@@ -15,8 +15,15 @@
 import {logd} from "./log";
 import {isFunction} from "./type";
 
+/**
+ * {
+ *   "typename": [handler1, handler2, handler3],
+ *   "change" : [],
+ * }
+ */
 
 class EventDispatcher{
+
   private registered: Map<any, any> = new Map();
 
   private constructor() {
@@ -84,15 +91,12 @@ class EventDispatcher{
 
 export abstract class IEventListener{
   private dispatcher = EventDispatcher.dispatcher;
-
   protected addListener(el: any, type: string, handler: any){
     this.dispatcher.addListener(el, type, handler);
   }
-
   protected removeListener(el: any, type: string, handler: any){
     this.dispatcher.removeListener(el, type, handler);
   }
-
   protected signal(type: string, ...args: any[]){
     // console.log(this);
     // console.log(`args = ${args}`);
@@ -112,7 +116,6 @@ export abstract class IEventListener{
     // @ts-ignore
     this.dispatcher.signal.apply(this.dispatcher, [this, type].concat(args));
   }
-
 }
 
 /**

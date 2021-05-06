@@ -12,6 +12,7 @@ import {lowerBound, normalize, upperBound} from "../utils/number";
  * 行是左闭右开，列是左闭右闭
  */
 export class TextBuffer {
+  public string = this.text;
   private doc: Text = Text.empty;
 
   /**
@@ -46,13 +47,12 @@ export class TextBuffer {
   public get text(): string {
     return this.doc.toString();
   }
-  public string = this.text;
 
-
-  public get array(): string[]{
+  public get array(): string[] {
     return this.doc.toJSON();
   }
-  public setText(text: string | string[] | undefined){
+
+  public setText(text: string | string[] | undefined) {
     if (text == undefined) {
       return;
     }
@@ -64,34 +64,9 @@ export class TextBuffer {
     }
   }
 
-  private rangeToOffsetRange(r: Range): [number, number]{
-    return [
-      this._offsetAt(r.getStartPosition()),
-      this.offsetAt(r.getEndPosition())
-    ]
-  }
-
   public rangeText(range: Range): string {
-    if (range.spansMultipleLines()) {
-      let [from, to] = this.rangeToOffsetRange(range);
-      return this.doc.sliceString(from, to, this.eof);
-      // let lines: string[] = [];
-      // lines.push(
-      //   this.doc.line(range.startLineNumber + 1).text.substring(range.startColumn)
-      // );
-      // lines = lines.concat(
-      //   this.slice(range.startLineNumber + 1, range.endColumn - 1)
-      // );
-      // lines.push(
-      //   this.doc.line(range.endLineNumber + 1).text.substring(0, range.endColumn)
-      // );
-      // return lines.join(this.eof);
-    }
-    return this.doc.line(range.startLineNumber + 1)
-      .text.substring(
-        range.startColumn,
-        range.endColumn
-      );
+    let [from, to] = this.rangeToOffsetRange(range);
+    return this.doc.sliceString(from, to, this.eof);
   }
 
   // 左闭右开的区间
@@ -121,15 +96,6 @@ export class TextBuffer {
     return this.doc.line(line + 1).length;
   }
 
-  private _offsetAt(pos: Position): number {
-    return this.doc.offsetAt(pos.lineNumber + 1, pos.column);
-  }
-
-  private _positionAt(offset: number): Position {
-    let [l, c] = this.doc.positionAt(offset);
-    return new Position(l - 1, c);
-  }
-
   public applyEdit(op: EditOperation): TextChange | undefined {
     if (!this.isValidRange(op.range)) {
       return undefined;
@@ -142,27 +108,6 @@ export class TextBuffer {
       return undefined;
     }
     return this._applyEdit(new ValidEditOperation(op.range, text));
-  }
-
-  private _applyEdit(op: ValidEditOperation): TextChange {
-    const oldText = this.rangeText(op.range);
-    const lines = op.text.split(this.eof);
-    const lastLine: number = lines.length - 1;
-    let endColumn =
-      lines[lastLine].length + (lines.length == 1 ? op.range.startColumn : 0);
-    const newRange = new Range(
-      op.range.startLineNumber,
-      op.range.startColumn,
-      op.range.startLineNumber + lastLine,
-      endColumn
-    );
-    let from = this._offsetAt(op.range.getStartPosition());
-    let to = this._offsetAt(op.range.getEndPosition());
-    // console.log(from);
-    // console.log(to);
-    this.doc = this.doc.replace(from, to, Text.of(lines));
-    // console.log(this.doc);
-    return new TextChange(newRange, op.text, op.range, oldText);
   }
 
   /**
@@ -192,7 +137,6 @@ export class TextBuffer {
     return c >= 0 && c <= this.lineLength(l);
   }
 
-
   // 辅助函数
   public atBufferEnd(position: Position): boolean {
     return (
@@ -213,19 +157,20 @@ export class TextBuffer {
     return position.column == 0;
   }
 
-  public offsetAt(p: Position): number{
-    if(this.isValidPosition(p)){
+  public offsetAt(p: Position): number {
+    if (this.isValidPosition(p)) {
       return this._offsetAt(p);
     }
     return -1;
   }
 
-  public positionAt(offset: number): Position | undefined{
-    if(offset >= 0 && offset <= this.charsCount){
+  public positionAt(offset: number): Position | undefined {
+    if (offset >= 0 && offset <= this.charsCount) {
       return this._positionAt(offset);
     }
     return undefined;
   }
+
   /**
    * 对光标的位置进行越界修正
    * @param p
@@ -233,9 +178,46 @@ export class TextBuffer {
    */
   public validatePosition(p: Position): Position {
     let [l, c] = p.tuple();
-    l = normalize(l, 0, this.lines-1);
+    l = normalize(l, 0, this.lines - 1);
     c = normalize(c, 0, this.lineLength(l));
     return p.with(l, c);
+  }
+
+  private rangeToOffsetRange(r: Range): [number, number] {
+    return [
+      this._offsetAt(r.getStartPosition()),
+      this.offsetAt(r.getEndPosition())
+    ]
+  }
+
+  private _offsetAt(pos: Position): number {
+    return this.doc.offsetAt(pos.lineNumber + 1, pos.column);
+  }
+
+  private _positionAt(offset: number): Position {
+    let [l, c] = this.doc.positionAt(offset);
+    return new Position(l - 1, c);
+  }
+
+  private _applyEdit(op: ValidEditOperation): TextChange {
+    const oldText = this.rangeText(op.range);
+    const lines = op.text.split(this.eof);
+    const lastLine: number = lines.length - 1;
+    let endColumn =
+      lines[lastLine].length + (lines.length == 1 ? op.range.startColumn : 0);
+    const newRange = new Range(
+      op.range.startLineNumber,
+      op.range.startColumn,
+      op.range.startLineNumber + lastLine,
+      endColumn
+    );
+    let from = this._offsetAt(op.range.getStartPosition());
+    let to = this._offsetAt(op.range.getEndPosition());
+    // console.log(from);
+    // console.log(to);
+    this.doc = this.doc.replace(from, to, Text.of(lines));
+    // console.log(this.doc);
+    return new TextChange(newRange, op.text, op.range, oldText);
   }
 
 }

@@ -21,6 +21,9 @@ export class Cursor {
   public get hasSelection(): boolean{
     return !this._anchor.equals(this._position);
   }
+  public get selection(): Range{
+    return Range.fromPositions(this._anchor, this._position);
+  }
 
   public get direction(): string {
     return this._anchor.isBeforeOrEqual(this._position) ? "forward" : "backward";
@@ -39,9 +42,7 @@ export class Cursor {
   public get anchor(): Position{
     return this._anchor;
   }
-  public get selection(): Range{
-    return Range.fromPositions(this._anchor, this._position);
-  }
+
 
   public locate(p: Position, keepLastColumn = false): void{
     this._position = p;
