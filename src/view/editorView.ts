@@ -20,12 +20,20 @@ export interface UpdateOpts{
   selection: boolean;
 }
 
+
 /**
- * 用于绘制编辑器视图, 包括四个部分
- * - 光标
- * - 文本视图
+ * 一个最基础的编辑器包括如下部分
+ * - 编辑区域
+ * - 行号
  * - 滚动条
+ * - 光标
  * - 选择区域
+ * - 当前行高亮
+ * - 状态栏
+ * 实际上, 部分的组件是包围编辑区域进行布局的, 在同一个坐标系中可以计算出位置
+ * 问题在于是否存在统一的视图机制来对视图进行渲染, 而不是不同的操作渲染不同的组件.
+ * scrollPosition其实不完全是作为view的属性, 它可以独立于实际显示的位置, 而是只和buffer有关
+ * 也就是可以存在两份scrollPosition, 当buffer中或view中修改了这个值时进行同步.
  */
 export class EditorView extends IEventListener{
   get viewModel(): ViewModel {
