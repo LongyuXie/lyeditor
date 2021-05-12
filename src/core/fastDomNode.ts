@@ -80,7 +80,6 @@ export class FastDomNode<T extends HTMLElement> {
       return;
     }
     this._top = top;
-    // console.log(`top = ${top}`);
     this.domNode.style.top = this._top + 'px';
   }
 
