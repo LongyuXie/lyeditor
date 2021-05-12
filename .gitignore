@@ -1,3 +1,5 @@
 .idea/
 .vscode/
+.vs/
 dist/
+node_modules
