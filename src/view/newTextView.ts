@@ -14,7 +14,18 @@ import { EasyDomNode } from "../core/easyDomNode";
  */
 export class NewTextView {
   private lines: EasyDomNode<HTMLElement>[];
-  // private
+  // // 行的高度
+  // private lineH: number;
+  // // 左上角的坐标
+  // private left: number;
+  // private top: number;
+
+  // 每次只显示渲染视窗中的行
+  // 视窗的概念：[start, end]
+  // 更加抽象地看，这就是一个优化后的ListView（Android）
+  // 文档中的文本行可以非常多，但是只有可视区域中的行会被渲染。
+  // 将这个过程抽象成一个抽象类。
+  // 更新的概念
 
   constructor() {
     this.lines = [];
